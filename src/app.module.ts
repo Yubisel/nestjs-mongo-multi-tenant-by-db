@@ -6,6 +6,7 @@ import { dbConfig } from './config/db.config';
 import { ProductsModule } from './products/products.module';
 import { TenantsModule } from './tenants/tenants.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { appConfig } from './config/app.config';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     ConfigModule.forRoot({
       isGlobal: true,
       cache: true,
-      load: [dbConfig],
+      load: [appConfig, dbConfig],
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],

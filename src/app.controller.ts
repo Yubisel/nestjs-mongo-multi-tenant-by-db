@@ -11,8 +11,8 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    const url = this.configService.get<string>('db.url');
-    console.log(url);
+    const uri = this.configService.get<string>('db.uri');
+    console.log(uri);
     return this.appService.getHello();
   }
 }
