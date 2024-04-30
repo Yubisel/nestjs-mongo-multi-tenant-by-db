@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Req,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 // import { UpdateProductDto } from './dto/update-product.dto';
@@ -17,14 +8,15 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create(@Req() { tenantId }, @Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(tenantId, createProductDto);
+  create(@Body() createProductDto: CreateProductDto) {
+    return this.productsService.create(createProductDto);
   }
 
   @Get()
-  findAll(@Req() { tenantId }) {
-    return tenantId;
-    // return this.productsService.findAll();
+  findAll() {
+    // return this.tenantConnection.db.databaseName;
+    // return tenantId;
+    return this.productsService.findAll();
   }
 
   // @Get(':id')
