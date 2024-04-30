@@ -1,0 +1,23 @@
+meta {
+  name: create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/products
+  body: json
+  auth: none
+}
+
+headers {
+  x-tenant-id: dev
+}
+
+body:json {
+  {
+    "name": "keyboard",
+    "description": "gamer kayboard",
+    "price": 34
+  }
+}

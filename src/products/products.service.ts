@@ -1,26 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+// import { CreateProductDto } from './dto/create-product.dto';
+// import { UpdateProductDto } from './dto/update-product.dto';
+import { InjectConnection } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
+import { Product, ProductSchema } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  constructor(@InjectConnection() private connection: Connection) {}
+
+  async getTenantConnection(tenantId: string) {
+    return this.connection.useDb(`nmmt_${tenantId}`);
   }
 
-  findAll() {
-    return `This action returns all products`;
+  async getProductModel(tenantId: string) {
+    const tenantConnection = await this.getTenantConnection(tenantId);
+    return tenantConnection.model(Product.name, ProductSchema);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async create(tenantId: string, createProductDto: any) {
+    const productModel = await this.getProductModel(tenantId);
+    const product = new productModel(createProductDto);
+    return product.save();
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async findAll(tenantId: string) {
+    const productModel = await this.getProductModel(tenantId);
+    return productModel.find().exec();
   }
 }
