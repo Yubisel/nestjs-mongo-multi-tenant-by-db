@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tenant } from './entities/tenant.entity';
 import { Model } from 'mongoose';
-// import { CreateTenantDto } from './dto/create-tenant.dto';
+import { CreateTenantDto } from './dto/create-tenant.dto';
 // import { UpdateTenantDto } from './dto/update-tenant.dto';
 
 @Injectable()
@@ -14,9 +14,10 @@ export class TenantsService {
   async getTenantById(tenantId: string): Promise<Tenant> {
     return this.tenantModel.findOne({ tenantId }).exec();
   }
-  // create(createTenantDto: CreateTenantDto) {
-  //   return 'This action adds a new tenant';
-  // }
+
+  async create(createTenantDto: CreateTenantDto) {
+    return this.tenantModel.create(createTenantDto);
+  }
 
   // findAll() {
   //   return `This action returns all tenants`;
